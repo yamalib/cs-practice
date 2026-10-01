@@ -4,6 +4,8 @@ x = input("Введите действие, которое должен сдел
 match x:
     case "+":
         res = a + b
+    case "-":
+        res = a - b
     case _:
         res = "Неопознанное действие"
 print(res)
