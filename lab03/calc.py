@@ -8,8 +8,6 @@ match x:
         res = a - b
     case "*":
         res = a * b
-    case "/":
-        res = a / b
     case _:
         res = "Неопознанное действие"
 print(res)
