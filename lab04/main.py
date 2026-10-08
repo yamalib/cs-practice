@@ -1,16 +1,27 @@
 import sys
+from stats import parse_record, average_by_city
 
 lines = sys.stdin.read().splitlines()
-total = {}
-count = {}
+valid_records = []
+parsed_count = 0
+skipped_count = 0
+
 for line in lines:
-    city, temp, date = line.split(";")
-    total[city] = total.get(city, 0) + float(temp)
-    count[city] = count.get(city, 0) + 1
-best = ""
-for city in total:
-    if best == "" or total[city] / count[city] > total[best] / count[best]:
-        best = city
-print(len(lines))
-print(0)
-print(total[best] / count[best])
+    if not line.strip():
+        continue
+try:
+    record = parse_record(line)
+    valid_records.append(record)
+    parsed_count += 1
+except ValueError:
+    skipped_count += 1
+
+print(parsed_count)
+print(skipped_count)
+
+if valid_records:
+    averages = average_by_city(valid_records)
+    max_avg_temp = max(averages.values())
+    print(f"{max_avg_temp:.1f}")
+else:
+    print("0.0")
