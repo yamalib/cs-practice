@@ -45,3 +45,21 @@ def average_by_city(records: list[dict]) -> dict:
         average = round(sums[city] / counts[city], 1)
         average_cities[city] = average
     return average_cities
+
+def warmest_city(records: list[dict]) -> str:
+    """Город с наибольшей средней температурой. При равенстве — первый по алфавиту."""
+    if not records:
+        return ""
+
+    averages = average_by_city(records)
+    best_city = None
+    max_temp = -float('inf')
+
+    for city, temp in averages.items():
+        if temp > max_temp:
+            max_temp = temp
+            best_city = city
+        elif temp == max_temp:
+            if best_city is None or city < best_city:
+                best_city = city
+    return best_city
