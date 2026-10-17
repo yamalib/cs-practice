@@ -11,6 +11,8 @@ def parse_record(line: str) -> dict:
 
     if not city or not date:
         raise ValueError("Название города и дата не могут быть пустыми.")
+    if city[0] == ' ':
+        raise ValueError("Неверно задано название города")
 
     try:
         temperature = float(temp_str)
