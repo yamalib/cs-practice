@@ -1,27 +1,11 @@
 import sys
-from stats import parse_record, average_by_city
+from stats import average_by_city, read_valid, warmest_city
 
 lines = sys.stdin.read().splitlines()
-valid_records = []
-parsed_count = 0
-skipped_count = 0
 
-for line in lines:
-    if not line.strip():
-        continue
-try:
-    record = parse_record(line)
-    valid_records.append(record)
-    parsed_count += 1
-except ValueError:
-    skipped_count += 1
+valid_records = read_valid(lines)
+skipped_count = len(lines) - len(valid_records)
 
-print(parsed_count)
+print(len(lines))
 print(skipped_count)
-
-if valid_records:
-    averages = average_by_city(valid_records)
-    max_avg_temp = max(averages.values())
-    print(f"{max_avg_temp:.1f}")
-else:
-    print("0.0")
+print(average_by_city(valid_records)[warmest_city(valid_records)])
