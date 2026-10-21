@@ -16,12 +16,14 @@ def parse_record(line: str) -> dict:
         raise ValueError("Неверно задано название города")
 
     try:
-        temperature = temp_str.split('.')
-
-        if len(temperature[1]) == 1:
-            temperature = float(temp_str)
+        if '.' in temp_str:
+            temperature = temp_str.split('.')
+            if len(temperature[1]) <= 1:
+                temperature = float(temp_str)
+            else:
+                raise ValueError("Температура введена некорректным форматом")
         else:
-            raise ValueError("Температура введена некорректным форматом")
+            temperature = float(temp_str)
 
     except ValueError:
         raise ValueError(f"Неверный формат температуры")
