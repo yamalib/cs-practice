@@ -1,11 +1,11 @@
 def parse_record(line: str) -> dict:
     parts = [p.strip() for p in line.split(";")]
 
+    if not line.strip():
+        raise ValueError("Пустая строка")
+
     if len(parts) != 3:
         raise ValueError(f"Неверный формат строки. Ожидалось 3 поля, получено {len(parts)}.")
-
-    if not line.strip():
-        raise ValueError(f"Пустая строка")
 
     city, temp_str, date = parts
 
@@ -16,7 +16,13 @@ def parse_record(line: str) -> dict:
         raise ValueError("Неверно задано название города")
 
     try:
-        temperature = float(temp_str)
+        temperature = temp_str.split('.')
+
+        if len(temperature[1]) == 1:
+            temperature = float(temp_str)
+        else:
+            raise ValueError("Температура введена некорректным форматом")
+
     except ValueError:
         raise ValueError(f"Неверный формат температуры")
 
@@ -24,7 +30,8 @@ def parse_record(line: str) -> dict:
     # return city, temperature, date
 
 def read_valid(lines: list[str]) -> list[dict]:
-    total = []
+    valid_total = []
+    skipped_total = 0
     total_temp = {}
     count = {}
     #print(lines)
@@ -39,11 +46,10 @@ def read_valid(lines: list[str]) -> list[dict]:
             total_temp[city] = total_temp.get(city, 0) + temp
             count[city] = count.get(city, 0) + 1
 
-            total.append(record)
+            valid_total.append(record)
         except ValueError:
-            #print("EXCEPT")
             continue
-    return total
+    return valid_total
 
 def average_by_city(records: list[dict]) -> dict:
     """Средняя температура по каждому городу, округлённая до десятых."""
