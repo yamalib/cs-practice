@@ -1,21 +1,23 @@
 LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR"}
 
+
 def parse_event(line: str) -> dict:
     parts = line.strip().split(maxsplit=2)
 
     if len(parts) < 3:
-        raise ValueError("Некорректный формат строки журнала")
+        raise ValueError("РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ С„РѕСЂРјР°С‚ СЃС‚СЂРѕРєРё Р¶СѓСЂРЅР°Р»Р°")
 
     time, level, message = parts
 
     if level not in LEVELS:
-        raise ValueError("Неизвестный уровень")
+        raise ValueError("РќРµРёР·РІРµСЃС‚РЅС‹Р№ СѓСЂРѕРІРµРЅСЊ")
 
     return {
         "time": time,
         "level": level,
         "message": message,
     }
+
 
 def count_levels(lines: list[str]) -> dict:
     counts = {}
@@ -33,6 +35,7 @@ def count_levels(lines: list[str]) -> dict:
             counts[level] = counts.get(level, 0) + 1
 
     return counts
+
 
 def top_errors(lines: list[str], n: int) -> list[list]:
     if n <= 0:
@@ -61,16 +64,17 @@ def top_errors(lines: list[str], n: int) -> list[list]:
 
     return [[message, count] for message, count in sorted_errors[:n]]
 
+
 def format_report(counts: dict, errors: list[list]) -> str:
-    lines = ["Отчёт по журналу", ""]
+    lines = ["РћС‚С‡С‘С‚ РїРѕ Р¶СѓСЂРЅР°Р»Сѓ", ""]
 
     for level in sorted(counts):
         lines.append(f"{level}: {counts[level]}")
 
     lines.append("")
-    lines.append("Частые ошибки:")
+    lines.append("Р§Р°СЃС‚С‹Рµ РѕС€РёР±РєРё:")
 
     for message, count in errors:
-        lines.append(f" - {message} – {count}")
+        lines.append(f" - {message} вЂ“ {count}")
 
     return "\n".join(lines) + "\n"
