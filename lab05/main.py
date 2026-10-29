@@ -14,7 +14,7 @@ total = sum(counts.values())
 error_count = counts.get("ERROR", 0)
 broken_count = counts.get("BROKEN", 0)
 
-print(total, error_count, broken_count, sep='\n')
+print(total, error_count, broken_count)
 
 report = format_report(counts, errors)
 
