@@ -40,7 +40,7 @@ def parse_settings(lines: list[str]) -> dict:
                     val = int(val_str)
                 except ValueError:
                     try:
-                        val = float(val_str)
+                        val = float(val_str.replace(',', '.'))
                     except ValueError:
                         val = val_str
             if current_list is not None:
@@ -64,7 +64,7 @@ def parse_settings(lines: list[str]) -> dict:
                         val = int(v_str)
                     except ValueError:
                         try:
-                            val = float(v_str)
+                            val = float(v_str.replace(',', '.'))
                         except ValueError:
                             val = v_str
                 result[k] = val
