@@ -40,6 +40,7 @@ def parse_settings(lines: list[str]) -> dict:
                     val = int(val_str)
                 except ValueError:
                     try:
+                        # Меняем запятую на точку для успешного парсинга float
                         val = float(val_str.replace(',', '.'))
                     except ValueError:
                         val = val_str
@@ -64,6 +65,7 @@ def parse_settings(lines: list[str]) -> dict:
                         val = int(v_str)
                     except ValueError:
                         try:
+                            # Меняем запятую на точку для успешного парсинга float
                             val = float(v_str.replace(',', '.'))
                         except ValueError:
                             val = v_str
